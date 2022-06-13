@@ -175,6 +175,51 @@ def get_wifi_ssid():
         ssid = 'UNKNOWN'
     return (ssid)
 
+def get_ext_temp_dht11():
+    try:
+        etemp = subprocess.check_output(
+                                  [
+                                      'bash',
+                                      '-c',
+                                      'python3 /home/pi/dht11_temperature/dht_simpletest.py | awk \'{print $1}\'',
+                                  ]
+                              ).decode('utf-8').rstrip()
+    except subprocess.CalledProcessError:
+        etemp = 'UNKNOWN'
+    if not etemp:
+        etemp = 'UNKNOWN'
+    return (etemp)
+
+def get_ext_temp_ds18b20():
+    try:
+        etemp2 = subprocess.check_output(
+                                  [
+                                      'bash',
+                                      '-c',
+                                      '/home/pi/ds18b20_temperature/ds18b20_1wire.sh',
+                                  ]
+                              ).decode('utf-8').rstrip()
+    except subprocess.CalledProcessError:
+        etemp2 = 'UNKNOWN'
+    if not etemp2:
+        etemp2 = 'UNKNOWN'
+    return (etemp2)
+
+def get_ext_humid_dht11():
+    try:
+        exthumid = subprocess.check_output(
+                                  [
+                                      'bash',
+                                      '-c',
+                                      'python3 /home/pi/dht11_temperature/dht_simpletest.py | awk \'{print $2}\'',
+                                  ]
+                              ).decode('utf-8').rstrip()
+    except subprocess.CalledProcessError:
+        exthumid = 'UNKNOWN'
+    if not exthumid:
+        exthumid = 'UNKNOWN'
+    return (exthumid)
+
 def get_rpi_power_status():
     return 'ON' if _underVoltage.get() else 'OFF'
 
@@ -217,7 +262,7 @@ def external_drive_base(drive, drive_path) -> dict:
         }
 
 sensors = {
-          'temperature': 
+          'temperature':
                 {'name':'Temperature',
                  'class': 'temperature',
                  'unit': '°C',
@@ -317,22 +362,41 @@ sensors = {
                  'icon': 'clock-check',
                  'sensor_type': 'sensor',
                  'function': get_last_message},
-          'updates': 
+          'updates':
                 {'name':'Updates',
                  'icon': 'cellphone-arrow-down',
                  'sensor_type': 'sensor',
                  'function': get_updates},
-          'wifi_strength': 
+          'wifi_strength':
                 {'class': 'signal_strength',
                  'name':'Wifi Strength',
                  'unit': 'dBm',
                  'icon': 'wifi',
                  'sensor_type': 'sensor',
                  'function': get_wifi_strength},
-          'wifi_ssid': 
+          'wifi_ssid':
                 {'class': 'signal_strength',
                  'name':'Wifi SSID',
                  'icon': 'wifi',
                  'sensor_type': 'sensor',
                  'function': get_wifi_ssid},
+          'ext_temperature_dht11':
+                {'name':'External Temperature DHT11',
+                 'class': 'temperature',
+                 'unit': '°C',
+                 'icon': 'thermometer',
+                 'sensor_type': 'sensor',
+                 'function': get_ext_temp_dht11},
+          'ext_temperature_ds18b20':
+                {'name':'External Temperature DS18B20',
+                 'class': 'temperature',
+                 'unit': '°C',
+                 'icon': 'thermometer',
+                 'sensor_type': 'sensor',
+                 'function': get_ext_temp_ds18b20},
+          'ext_humidity_dht11':
+                {'name':'External Humidity DHT11',
+                 'unit': '%',
+                 'sensor_type': 'sensor',
+                 'function': get_ext_humid_dht11},
           }

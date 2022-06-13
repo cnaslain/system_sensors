@@ -3,32 +3,35 @@ mqtt:
   port: 1883 #defaults to 1883
   user: test
   password: test
-deviceName: test
-client_id: test
-timezone: Europe/Brussels
+deviceName: octopi
+client_id: octopi
+timezone: Europe/Paris
 update_interval: 60 #Defaults to 60
 sensors:
   temperature: true
-  clock_speed: true
-  disk_use: true
-  memory_use: true
-  cpu_usage: true
-  load_1m: true
-  load_5m: true
-  load_15m: true
-  net_tx: true
-  net_rx: true
-  swap_usage: true
+  clock_speed: false
+  disk_use: false
+  memory_use: false
+  cpu_usage: false
+  load_1m: false
+  load_5m: false
+  load_15m: false
+  net_tx: false
+  net_rx: false
+  swap_usage: false
   power_status: true
   last_boot: true
   hostname: true
   host_ip: true
-  host_os: true
-  host_arch: true
-  last_message: true
-  updates: true
-  wifi_strength: true
-  wifi_ssid: true
-  external_drives:
+  host_os: false
+  host_arch: false
+  last_message: false
+  updates: false
+  wifi_strength: false
+  wifi_ssid: false
+  ext_temperature_dht11: true
+  ext_humidity_dht11: true
+  ext_temperature_ds18b20: true
+# external_drives:
     # Only add mounted drives here, e.g.:
     # Drive1: /media/storage
